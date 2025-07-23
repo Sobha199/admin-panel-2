@@ -47,8 +47,15 @@ elif page == "Dashboard":
     st.subheader("Internal Role-wise HC")
     st.write(login_data["Internal Role"].value_counts())
 
-    st.subheader("Total Login Count")
+    # After reading CSV and stripping column names
+    login_data.columns = login_data.columns.str.strip()
+
+    # Convert Login Count to numeric (fixes the error)
+    login_data["Login Count"] = pd.to_numeric(login_data["Login Count"], errors="coerce")
+
+    # Then display total login count
     st.write("Login Count:", login_data["Login Count"].sum())
+
 
     st.subheader("Certified Count")
     st.write("Certified:", login_data[login_data["Certified"] == "Yes"].shape[0])
