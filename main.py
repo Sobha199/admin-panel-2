@@ -47,7 +47,7 @@ elif page == "Dashboard":
     st.subheader("Internal Role-wise HC")
     st.write(login_data["Internal Role"].value_counts())
     login_data["Login Count"] = login_data["Login Count"].count()
-    st.metric("Login Count", Login Count)
+    st.metric("Login Count" , Login Count)
     st.subheader("Certified Count")
     st.write("Certified:", login_data[login_data["Certified"] == "Yes"].shape[0])
 
