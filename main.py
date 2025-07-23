@@ -29,37 +29,67 @@ if page == "Login":
             st.success("Login Successful")
 
 # Page 2: Dashboard
-elif page == "Dashboard":
-    st.title("Admin Dashboard")
-    st.subheader("Total Headcount")
-    total_hc = login_data["Total Member"].count()
-    st.metric("Total HC", total_hc)
+import streamlit as st
+import pandas as pd
+from datetime import datetime
 
-    st.subheader("Tenurity-wise Deviation")
-    today = pd.Timestamp.now()
-    login_data["DOJ"] = pd.to_datetime(login_data["DOJ"], errors="coerce")
-    login_data["Tenure Months"] = login_data["DOJ"].apply(lambda x: (today - x).days // 30 if pd.notnull(x) else None)
-    tenure_0_6 = login_data[login_data["Tenure Months"].between(0, 6)].shape[0]
-    tenure_6_12 = login_data[login_data["Tenure Months"].between(6, 12)].shape[0]
-    tenure_12_plus = login_data[login_data["Tenure Months"] > 12].shape[0]
-    st.write(f"0-6 Months: {tenure_0_6}, 6-12 Months: {tenure_6_12}, >1 Year: {tenure_12_plus}")
+st.set_page_config(page_title="S2M Admin Dashboard", layout="wide")
+st.title("S2M Admin Dashboard")
 
-    st.subheader("Internal Role-wise HC")
-    st.write(login_data["Internal Role"].value_counts())
-    login_data["Login Count"] = login_data["Login Count"].count()
-    st.metric("Login Count" , Login Count)
-    st.subheader("Certified Count")
-    st.write("Certified:", login_data[login_data["Certified"] == "Yes"].count()
-     st.metric("Certified" ,Certified)
+# Load and clean data
+df = pd.read_csv("Login tracking (2).csv")
+df.columns = df.columns.str.strip()  # Remove extra spaces
 
-    st.subheader("Inactive Login Count")
-    st.write("Inactive:", login_data[login_data["Login Status"] == "Inactive"].count()
-     st.metric("Inactive" ,Inactive)
+# Total Headcount (Total Member count)
+if "Total Member" in df.columns:
+    total_hc = df["Total Member"].count()
+else:
+    total_hc = "Column not found"
 
-    # Download CSV
-    csv = login_data.to_csv(index=False).encode('utf-8')
-    st.download_button("Download CSV", data=csv, file_name="admin_data.csv", mime="text/csv")
+# Tenurity calculation
+if "DOJ" in df.columns:
+    df["DOJ"] = pd.to_datetime(df["DOJ"], errors="coerce")
+    df["Tenure Months"] = df["DOJ"].apply(lambda x: (datetime.now() - x).days // 30 if pd.notnull(x) else None)
+    tenure_0_6 = df[df["Tenure Months"].between(0, 6)].shape[0]
+    tenure_6_12 = df[df["Tenure Months"].between(6, 12)].shape[0]
+    tenure_12_plus = df[df["Tenure Months"] > 12].shape[0]
+else:
+    tenure_0_6 = tenure_6_12 = tenure_12_plus = "DOJ column missing"
 
+# Internal Role-wise HC
+internal_role_data = df["Internal Role"].value_counts() if "Internal Role" in df.columns else "Internal Role column not found"
+
+# Total Login Count
+if "Login Count" in df.columns:
+    df["Login Count"] = pd.to_numeric(df["Login Count"], errors="coerce")
+    login_total = int(df["Login Count"].sum(skipna=True))
+else:
+    login_total = "Login Count column not found"
+
+# Certified Count
+certified_count = df[df["Certified"].str.strip() == "Yes"].shape[0] if "Certified" in df.columns else "Certified column not found"
+
+# Inactive login count
+inactive_count = df[df["Login Status"].str.strip() == "Inactive"].shape[0] if "Login Status" in df.columns else "Login Status column not found"
+
+# Display metrics
+st.metric("Total HC", total_hc)
+st.metric("Login Count", login_total)
+st.metric("Certified", certified_count)
+st.metric("Inactive Login", inactive_count)
+
+st.subheader("Tenurity Wise Deviation")
+st.write(f"0–6 Months: {tenure_0_6} | 6–12 Months: {tenure_6_12} | >1 Year: {tenure_12_plus}")
+
+st.subheader("Internal Role-wise HC")
+if isinstance(internal_role_data, pd.Series):
+    st.dataframe(internal_role_data.reset_index().rename(columns={'index': 'Role', 'Internal Role': 'Count'}))
+else:
+    st.write(internal_role_data)
+
+# Download cleaned data
+csv = df.to_csv(index=False).encode("utf-8")
+st.download_button("Download Data", data=csv, file_name="dashboard_data.csv", mime="text/csv")
 # Page 3: Production Portal (Dummy Data)
 elif page == "Production Portal":
     st.title("Production Dashboard")
