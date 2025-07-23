@@ -1,4 +1,4 @@
-User Name,Password,Total Member,Emp Name,DOJ,Tenure,Notice Period,Internal Role,Login ID,Login Count,Role,Certified (Yes/No or True/False column),Active 
+User Name,Password,Total Member,Emp Name,DOJ,Tenure,Notice Period,Internal Role,Login ID,Login Count,Role,Certified,Active 
 3385,S2m@12345,1626,Dheepalakshmi K,07/05/2021,More than 1 year,Yes,QA,Shrinath Patole,Shrinath@s2mhealth.com,Admin,Non - Certified,Active
 3828,S2m@12345,1666,Vaideeswari,09/02/2021,More than 1 year,Yes,QA,Nilesh Gharat,Niles.g@s2mhealth.com,Admin,Non - Certified,Active
 3858,S2m@12345,1778,Manju D,02/03/2022,More than 1 year,Yes,QA,Shiva  Prasad Kura,Sivaprasad.k@s2mhealth.com,Admin,Non - Certified,Inactive
