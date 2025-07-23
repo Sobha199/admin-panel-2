@@ -49,10 +49,12 @@ elif page == "Dashboard":
     login_data["Login Count"] = login_data["Login Count"].count()
     st.metric("Login Count" , Login Count)
     st.subheader("Certified Count")
-    st.write("Certified:", login_data[login_data["Certified"] == "Yes"].shape[0])
+    st.write("Certified:", login_data[login_data["Certified"] == "Yes"].count()
+     st.metric("Certified" ,Certified)
 
     st.subheader("Inactive Login Count")
-    st.write("Inactive:", login_data[login_data["Login Status"] == "Inactive"].shape[0])
+    st.write("Inactive:", login_data[login_data["Login Status"] == "Inactive"].count()
+     st.metric("Inactive" ,Inactive)
 
     # Download CSV
     csv = login_data.to_csv(index=False).encode('utf-8')
