@@ -111,15 +111,6 @@ if st.session_state.logged_in:
             st.error(f"Error loading or processing the data: {e}")
 else:
     page = st.sidebar.radio("Navigate", ["Dashboard", "Production Portal", "Logout"])
-    if page == "Form":
-        Production_Portal()
-    elif page == "Dashboard":
-        dashboard_page()
-    elif page == "Logout":
+   if page == "Logout":
         log_session_end()
-        st.session_state.authenticated = False
-        st.session_state.emp_id = ""
-        st.session_state.emp_name = ""
-        st.session_state.team_lead = ""
-        st.session_state.login_time = None
         st.success("Logged out successfully.")
