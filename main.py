@@ -31,11 +31,7 @@ if not st.session_state.logged_in:
 
 # Page 2 & 3: Only after login
 if st.session_state.logged_in:
-    page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal", "Logout"])
-    if page == "Dashbaord":
-        Dashboard()
-    elif page == "Logout":
-        def log_session_end():
+    page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal"])
 
     if page == "Dashboard":
         st.title("Admin Dashboard")
@@ -53,16 +49,16 @@ if st.session_state.logged_in:
 
         role_df = df["Internal Role"].value_counts() if "Internal Role" in df.columns else "Missing Internal Role"
 
-        Login_Count = df["Login Count"].count() if "Login ID" in df.columns else "Column not found"
+        login_total = "Missing Column"
         if "Login Count" in df.columns:
             df["Login Count"] = pd.to_numeric(df["Login Count"], errors="coerce")
-            login_Count = int(df["Login Count"].sum(skipna=True))
+            login_total = int(df["Login Count"].sum(skipna=True))
 
         certified_count = df[df["Certified"].str.strip() == "Yes"].shape[0] if "Certified" in df.columns else "Missing Certified"
         inactive_count = df[df["Login Status"].str.strip() == "Inactive"].shape[0] if "Login Status" in df.columns else "Missing Login Status"
 
         st.metric("Total HC", total_hc)
-        st.metric("Login Count", login_Count)
+        st.metric("Login Count", login_total)
         st.metric("Certified", certified_count)
         st.metric("Inactive Login", inactive_count)
 
