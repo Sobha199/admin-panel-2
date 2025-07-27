@@ -37,7 +37,6 @@ if st.session_state.logged_in:
     elif page == "Production Portal":
         Production_Portal()
     elif page == "Logout":
-        log_session_end()
         st.success("Logout Successful")
 
     if page == "Dashboard":
