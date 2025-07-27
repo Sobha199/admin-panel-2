@@ -76,8 +76,7 @@ if st.session_state.logged_in:
 
     elif page == "Production Portal":
         st.title("Production Dashboard")
-        st.image("s2m-logo.png", width=150)
-
+        
         try:
             prod_df = pd.read_csv("Data (1).csv")
             prod_df.columns = prod_df.columns.str.strip()
