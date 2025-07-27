@@ -1,11 +1,11 @@
-
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import io  # <--- Added to fix the export error
 
 # Load data
 df = pd.read_csv("Login tracking (2).csv")
-df.columns = df.columns.str.strip()  # Clean column names
+df.columns = df.columns.str.strip()
 
 # Page config
 st.set_page_config(page_title="S2M Admin Panel", layout="wide")
@@ -26,10 +26,11 @@ if not st.session_state.logged_in:
             if username and password:
                 st.session_state.logged_in = True
                 st.success("Login Successful")
+                st.experimental_rerun()  # Redirect after successful login
             else:
                 st.error("Invalid credentials")
 
-# Page 2 & 3: Only after login
+# Pages after login
 if st.session_state.logged_in:
     page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal", "Logout"])
 
@@ -109,14 +110,9 @@ if st.session_state.logged_in:
                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         except Exception as e:
             st.error(f"Error loading or processing the data: {e}")
-elif page == "Logout":
-    log_session_end()
-    st.session_state.logged_in = False  # Show login page
-    st.session_state.authenticated = False
-    st.session_state.emp_id = ""
-    st.session_state.emp_name = ""
-    st.session_state.team_lead = ""
-    st.session_state.login_time = None
-    st.success("Logged out successfully.")
-    st.experimental_rerun()  # Force rerun to return to login screen
 
+    elif page == "Logout":
+        # Reset session and redirect to login
+        st.session_state.logged_in = False
+        st.success("Logged out successfully.")
+        st.experimental_rerun()
