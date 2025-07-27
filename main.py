@@ -109,3 +109,14 @@ if st.session_state.logged_in:
                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         except Exception as e:
             st.error(f"Error loading or processing the data: {e}")
+            elif page == "Logout":
+    log_session_end()
+    st.session_state.logged_in = False  # Show login page
+    st.session_state.authenticated = False
+    st.session_state.emp_id = ""
+    st.session_state.emp_name = ""
+    st.session_state.team_lead = ""
+    st.session_state.login_time = None
+    st.success("Logged out successfully.")
+    st.experimental_rerun()  # Force rerun to return to login screen
+
