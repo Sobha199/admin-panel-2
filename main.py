@@ -109,7 +109,7 @@ if st.session_state.logged_in:
                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         except Exception as e:
             st.error(f"Error loading or processing the data: {e}")
-            else:
+else:
     page = st.sidebar.radio("Navigate", ["Dashboard", "Production Portal", "Logout"])
     if page == "Form":
         Production_Portal()
