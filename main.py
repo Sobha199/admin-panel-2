@@ -76,7 +76,8 @@ if st.session_state.logged_in:
 
     elif page == "Production Portal":
         st.title("Production Dashboard")
-        
+        st.image("s2m-logo.png", width=150)
+
         try:
             prod_df = pd.read_csv("Data (1).csv")
             prod_df.columns = prod_df.columns.str.strip()
@@ -101,14 +102,11 @@ if st.session_state.logged_in:
                 else:
                     st.dataframe(filtered_df)
 
-                    output = io.BytesIO()
-                    with pd.ExcelWriter(output, engine="openpyxl") as writer:
-                        filtered_df.to_excel(writer, index=False, sheet_name="ProductionData")
-                
-                    st.download_button("📥 Download Production Data", data=output.getvalue(),
-                                       file_name="Production_Portal_Report.xlsx",
-                                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                
-                    st.download_button("Download Dashboard Data", data=df.to_csv(index=False).encode("utf-8"),
-                                       file_name="dashboard_data.csv", mime="text/csv")
-                    
+                output = io.BytesIO()
+                with pd.ExcelWriter(output, engine="openpyxl") as writer:
+                    filtered_df.to_excel(writer, index=False, sheet_name="ProductionData")
+                st.download_button("📥 Download Production Data", data=output.getvalue(),
+                                   file_name="Production_Portal_Report.xlsx",
+                                   mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        except Exception as e:
+            st.error(f"Error loading or processing the data: {e}")
