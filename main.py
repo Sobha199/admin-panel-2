@@ -36,7 +36,7 @@ if st.session_state.logged_in:
         Dashboard()
     elif page == "Logout":
         log_session_end()
-            st.success("Logged out successfully.")
+        st.success("Logged out successfully.")
 
     if page == "Dashboard":
         st.title("Admin Dashboard")
