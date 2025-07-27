@@ -115,4 +115,4 @@ if st.session_state.logged_in:
         # Reset session and redirect to login
         st.session_state.logged_in = False
         st.success("Logged out successfully.")
-        st.experimental_rerun()
+        st.rerun()
