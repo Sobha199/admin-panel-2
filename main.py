@@ -75,7 +75,7 @@ if st.session_state.logged_in:
                            file_name="dashboard_data.csv", mime="text/csv")
 
         elif page == "Production Portal":
-        st.title("Production Dashboard")
+            st.title("Production Dashboard")
 
         try:
             # Load production CSV
