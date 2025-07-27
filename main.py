@@ -58,7 +58,7 @@ if st.session_state.logged_in:
         inactive_count = df[df["Login Status"].str.strip() == "Inactive"].shape[0] if "Login Status" in df.columns else "Missing Login Status"
 
         st.metric("Total HC", total_hc)
-        st.metric("Login Count", login_total)
+        st.metric("Login Count", login_Count)
         st.metric("Certified", certified_count)
         st.metric("Inactive Login", inactive_count)
 
