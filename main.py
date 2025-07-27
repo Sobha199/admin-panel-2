@@ -109,8 +109,3 @@ if st.session_state.logged_in:
                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         except Exception as e:
             st.error(f"Error loading or processing the data: {e}")
-else:
-    page = st.sidebar.radio("Navigate", ["Dashboard", "Production Portal", "Logout"])
-   elif page == "Logout":
-        log_session_end()
-        st.success("Logged out successfully.")
