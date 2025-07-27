@@ -74,7 +74,7 @@ if st.session_state.logged_in:
         st.download_button("Download Dashboard Data", data=df.to_csv(index=False).encode("utf-8"),
                            file_name="dashboard_data.csv", mime="text/csv")
 
-    import io
+   import io
 
 elif page == "Production Portal":
     st.title("Production Dashboard")
@@ -83,14 +83,14 @@ elif page == "Production Portal":
         prod_df = pd.read_csv("Data (1).csv")
         prod_df.columns = prod_df.columns.str.strip()
 
-        # Rename columns to consistent format
+        # Rename short headers to full consistent format
         prod_df = prod_df.rename(columns={
-            "Date of Joining": "Date of Joining",
-            "No Of Charts": "No Of Charts",
-            "No Of Working Days": "No Of Working Days"
+            "Date of Jo": "Date of Joining",
+            "No Of Cha": "No Of Charts",
+            "No Of Wo": "No Of Working Days"
         })
 
-        # Required columns based on your sheet
+        # Define expected columns after renaming
         required_columns = ["Emp ID", "Emp Name", "Date of Joining", "No Of Charts", "No Of Working Days", "ICD", "Quality"]
         if not all(col in prod_df.columns for col in required_columns):
             st.error("One or more required columns are missing in the production CSV.")
