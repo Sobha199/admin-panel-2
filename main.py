@@ -74,50 +74,39 @@ if st.session_state.logged_in:
         st.download_button("Download Dashboard Data", data=df.to_csv(index=False).encode("utf-8"),
                            file_name="dashboard_data.csv", mime="text/csv")
 
-import io
+    elif page == "Production Portal":
+        st.title("Production Dashboard")
+        st.image("s2m-logo.png", width=150)
 
-if page == "Production Portal":
-    st.title("Production Dashboard")
-    st.image("s2m-logo.png", width=150)
-
-    try:
-        # Load CSV and clean headers
-        prod_df = pd.read_csv("Data (1).csv")
-        prod_df.columns = prod_df.columns.str.strip()
-
-        # Expected columns
-        required_columns = ["Emp ID", "Emp Name", "Date of Joining", "No Of Charts", 
-                            "No Of Working Days", "ICD", "Quality"]
-
-        # Check if all required columns are present
-        if not all(col in prod_df.columns for col in required_columns):
-            st.error("One or more required columns are missing in the production CSV.")
-        else:
-            filtered_df = prod_df[required_columns]
-
-            # Show metrics summary
-            st.metric("Total Charts Completed", filtered_df["No Of Charts"].sum())
-            st.metric("Total Working Days", filtered_df["No Of Working Days"].sum())
-            st.metric("Total ICD Codes", filtered_df["ICD"].sum())
-
-            # Search by Emp ID
-            st.markdown("### 🔍 Search Employee")
-            emp_id = st.text_input("Enter Emp ID to filter")
-            if emp_id:
-                emp_data = filtered_df[filtered_df["Emp ID"].astype(str).str.strip() == emp_id.strip()]
-                if not emp_data.empty:
-                    st.dataframe(emp_data)
-                else:
-                    st.warning("No data found for the entered Emp ID.")
+        try:
+            prod_df = pd.read_csv("Data (1).csv")
+            prod_df.columns = prod_df.columns.str.strip()
+            required_columns = ["Emp ID", "Emp Name", "Date of Joining", "No Of Charts", 
+                                "No Of Working Days", "ICD", "Quality"]
+            if not all(col in prod_df.columns for col in required_columns):
+                st.error("One or more required columns are missing in the production CSV.")
             else:
-                st.dataframe(filtered_df)
+                filtered_df = prod_df[required_columns]
+                st.metric("Total Charts Completed", filtered_df["No Of Charts"].sum())
+                st.metric("Total Working Days", filtered_df["No Of Working Days"].sum())
+                st.metric("Total ICD Codes", filtered_df["ICD"].sum())
 
-            # Download button
-            output = io.BytesIO()
-            with pd.ExcelWriter(output, engine="openpyxl") as writer:
-                filtered_df.to_excel(writer, index=False, sheet_name="ProductionData")
-            st.download_button("📥 Download Production Data", data=output.getvalue(),
-                               file_name="Production_Portal_Report.xlsx",
-                               mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    except Exception as e:
-        st.error(f"Error loading or processing the data: {e}")
+                st.markdown("### 🔍 Search Employee")
+                emp_id = st.text_input("Enter Emp ID to filter")
+                if emp_id:
+                    emp_data = filtered_df[filtered_df["Emp ID"].astype(str).str.strip() == emp_id.strip()]
+                    if not emp_data.empty:
+                        st.dataframe(emp_data)
+                    else:
+                        st.warning("No data found for the entered Emp ID.")
+                else:
+                    st.dataframe(filtered_df)
+
+                output = io.BytesIO()
+                with pd.ExcelWriter(output, engine="openpyxl") as writer:
+                    filtered_df.to_excel(writer, index=False, sheet_name="ProductionData")
+                st.download_button("📥 Download Production Data", data=output.getvalue(),
+                                   file_name="Production_Portal_Report.xlsx",
+                                   mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        except Exception as e:
+            st.error(f"Error loading or processing the data: {e}")
