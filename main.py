@@ -83,7 +83,7 @@ if st.session_state.logged_in:
             prod_df.columns = prod_df.columns.str.strip()
 
             # Ensure only required columns are displayed
-            required_columns = ["Emp ID", "No of charts", "ICD", "DOS", "CPH"]
+            required_columns = ["Emp ID", "Emp Name", "Date Of Joing", "No of working Days", "No of charts", "ICD", "DOS"]
             if not all(col in prod_df.columns for col in required_columns):
                 st.error("One or more required columns are missing in the production CSV.")
             else:
