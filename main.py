@@ -34,8 +34,6 @@ if st.session_state.logged_in:
     page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal", "Logout"])
     if page == "Dashbaord":
         Dashboard()
-    elif page == "Production Portal":
-        Production_Portal()
     elif page == "Logout":
         st.success("Logout Successful")
 
