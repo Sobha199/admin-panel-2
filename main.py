@@ -74,19 +74,19 @@ if st.session_state.logged_in:
         st.download_button("Download Dashboard Data", data=df.to_csv(index=False).encode("utf-8"),
                            file_name="dashboard_data.csv", mime="text/csv")
 
+   if st.session_state.logged_in:
+    page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal"])
+
+    if page == "Dashboard":
+        st.title("Admin Dashboard")
+        # Your dashboard logic...
+
     elif page == "Production Portal":
         st.title("Production Dashboard")
-
-      elif page == "Production Portal":
-        st.title("Production Dashboard")
-
-        # Load the uploaded production CSV file
-        prod_csv_path = "Copy of OJT overall production compilation from 20072025-25072025.csv"
         try:
-            prod_data = pd.read_csv(prod_csv_path)
-            prod_data.columns = prod_data.columns.str.strip()  # Clean column names
+            prod_data = pd.read_csv("Copy of OJT overall production compilation from 20072025-25072025.csv")
+            prod_data.columns = prod_data.columns.str.strip()
 
-            # Show filter option
             emp_id = st.text_input("Enter Emp ID")
             if emp_id:
                 filtered = prod_data[prod_data["Emp ID"].astype(str).str.strip() == emp_id.strip()]
@@ -94,7 +94,6 @@ if st.session_state.logged_in:
             else:
                 st.dataframe(prod_data)
 
-            # Download option
             st.download_button("Download Production Data",
                                data=prod_data.to_csv(index=False).encode("utf-8"),
                                file_name="production_data.csv",
