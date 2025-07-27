@@ -35,8 +35,13 @@ if st.session_state.logged_in:
     if page == "Dashbaord":
         Dashboard()
     elif page == "Logout":
-        def log_session_end():
-            print("Session ended.")  # ✅ Properly indented
+        log_session_end()
+        st.session_state.authenticated = False
+        st.session_state.emp_id = ""
+        st.session_state.emp_name = ""
+        st.session_state.team_lead = ""
+        st.session_state.login_time = None
+        st.success("Logged out successfully.")
 
     if page == "Dashboard":
         st.title("Admin Dashboard")
