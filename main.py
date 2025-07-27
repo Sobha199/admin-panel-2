@@ -82,10 +82,14 @@ elif page == "Production Portal":
         prod_df.columns = prod_df.columns.str.strip()
 
         # Rename short headers to full consistent format
-        prod_df = prod_df.rename(columns={
+       prod_data = pd.DataFrame({
+           "Emp ID": "Emp Id",
+           "Emp Name": "Emp Name",
+            "Charts Completed": "No of Charts",
+            "Working Days": "No Of Working Days",
             "Date of Jo": "Date of Joining",
-            "No Of Cha": "No Of Charts",
-            "No Of Wo": "No Of Working Days"
+           "ICD": "ICD",
+           "Quality": "Quality"    
         })
 
         # Define expected columns after renaming
