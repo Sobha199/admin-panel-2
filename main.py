@@ -31,7 +31,7 @@ if not st.session_state.logged_in:
 
 # Page 2 & 3: Only after login
 if st.session_state.logged_in:
-    page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal"])
+    page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal", "Logout"])
 
     if page == "Dashboard":
         st.title("Admin Dashboard")
