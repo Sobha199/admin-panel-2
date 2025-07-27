@@ -31,7 +31,7 @@ if not st.session_state.logged_in:
 
 # Page 2 & 3: Only after login
 if st.session_state.logged_in:
-    page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal"])
+    page = st.sidebar.selectbox("Navigate", ["Dashboard", "Production Portal" "Logout"])
 
     if page == "Dashboard":
         st.title("Admin Dashboard")
@@ -109,3 +109,4 @@ if st.session_state.logged_in:
                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         except Exception as e:
             st.error(f"Error loading or processing the data: {e}")
+            
