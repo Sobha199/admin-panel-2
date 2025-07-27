@@ -76,7 +76,7 @@ if st.session_state.logged_in:
 
 import io
 
-elif page == "Production Portal":
+if page == "Production Portal":
     st.title("Production Dashboard")
     st.image("s2m-logo.png", width=150)
 
