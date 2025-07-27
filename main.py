@@ -49,7 +49,7 @@ if st.session_state.logged_in:
 
         role_df = df["Internal Role"].value_counts() if "Internal Role" in df.columns else "Missing Internal Role"
 
-        Login_Count = df["Login ID"].count() if "Login ID" in df.columns else "Column not found"
+        Login_Count = df["Login Count"].count() if "Login ID" in df.columns else "Column not found"
         if "Login Count" in df.columns:
             df["Login Count"] = pd.to_numeric(df["Login Count"], errors="coerce")
             login_Count = int(df["Login Count"].sum(skipna=True))
