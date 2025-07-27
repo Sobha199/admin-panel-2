@@ -99,16 +99,16 @@ if st.session_state.logged_in:
                     else:
                         st.warning("No data found for the entered Emp ID.")
                 else:
-    st.dataframe(filtered_df)
+                    st.dataframe(filtered_df)
 
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine="openpyxl") as writer:
-        filtered_df.to_excel(writer, index=False, sheet_name="ProductionData")
-
-    st.download_button("📥 Download Production Data", data=output.getvalue(),
-                       file_name="Production_Portal_Report.xlsx",
-                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-    st.download_button("Download Dashboard Data", data=df.to_csv(index=False).encode("utf-8"),
-                       file_name="dashboard_data.csv", mime="text/csv")
+                    output = io.BytesIO()
+                    with pd.ExcelWriter(output, engine="openpyxl") as writer:
+                        filtered_df.to_excel(writer, index=False, sheet_name="ProductionData")
+                
+                    st.download_button("📥 Download Production Data", data=output.getvalue(),
+                                       file_name="Production_Portal_Report.xlsx",
+                                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                
+                    st.download_button("Download Dashboard Data", data=df.to_csv(index=False).encode("utf-8"),
+                                       file_name="dashboard_data.csv", mime="text/csv")
 
