@@ -76,6 +76,13 @@ if st.session_state.logged_in:
 
     elif page == "Production Portal":
         st.title("Production Dashboard")
+
+        prod_data = pd.DataFrame({
+            "Emp ID": ["EMP001", "EMP002", "EMP003"],
+            "Charts Completed": [15, 20, 10],
+            "Pages Completed": [150, 200, 100],
+            "ICD Completed": [5, 8, 3],
+            "Working Days": [20, 22, 18]
         try:
             prod_data = pd.read_csv("Copy of OJT overall production compilation from 20072025-25072025.csv")
             prod_data.columns = prod_data.columns.str.strip()
