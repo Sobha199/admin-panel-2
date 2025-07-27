@@ -38,8 +38,6 @@ if st.session_state.logged_in:
         def log_session_end():
             print("Session ended.")  # ✅ Properly indented
 
-         st.success("Logout Successful")
-
     if page == "Dashboard":
         st.title("Admin Dashboard")
 
