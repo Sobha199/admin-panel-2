@@ -77,24 +77,21 @@ if st.session_state.logged_in:
     elif page == "Production Portal":
         st.title("Production Dashboard")
 
-        # Load the uploaded production CSV file
-        prod_csv_path = "Copy of OJT overall production compilation from 20072025-25072025.csv"
-        try:
-            prod_data = pd.read_csv(prod_csv_path)
-            prod_data.columns = prod_data.columns.str.strip()  # Clean column names
+       prod_data = pd.DataFrame({
+            "Emp ID": ["EMP001", "EMP002", "EMP003"],
+            "Charts Completed": [15, 20, 10],
+            "Pages Completed": [150, 200, 100],
+            "ICD Completed": [5, 8, 3],
+            "Working Days": [20, 22, 18]
+        })
 
-            # Show filter option
-            emp_id = st.text_input("Enter Emp ID")
-            if emp_id:
-                filtered = prod_data[prod_data["Emp ID"].astype(str).str.strip() == emp_id.strip()]
-                st.write(filtered if not filtered.empty else "No data found for this ID")
-            else:
-                st.dataframe(prod_data)
+        emp_id = st.text_input("Enter Emp ID")
+        if emp_id:
+            filtered = prod_data[prod_data["Emp ID"] == emp_id]
+            st.write(filtered if not filtered.empty else "No data found for this ID")
+        else:
+            st.dataframe(prod_data)
 
-            # Download option
-            st.download_button("Download Production Data",
-                               data=prod_data.to_csv(index=False).encode("utf-8"),
-                               file_name="production_data.csv",
-                               mime="text/csv")
-        except Exception as e:
-            st.error(f"Error loading production data: {e}")
+        st.download_button("Download Production Data", data=prod_data.to_csv(index=False).encode("utf-8"),
+                           file_name="production_data.csv", mime="text/csv")
+
