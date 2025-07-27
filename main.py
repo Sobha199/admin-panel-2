@@ -107,5 +107,7 @@ if st.session_state.logged_in:
                 st.download_button("📥 Download Production Data", data=output.getvalue(),
                                    file_name="Production_Portal_Report.xlsx",
                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                 st.download_button("Download Dashboard Data", data=df.to_csv(index=False).encode("utf-8"),
+                           file_name="dashboard_data.csv", mime="text/csv")
         except Exception as e:
             st.error(f"Error loading or processing the data: {e}")
