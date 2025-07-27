@@ -78,15 +78,12 @@ if st.session_state.logged_in:
     st.title("Production Dashboard")
 
     try:
-        # Load production CSV
         prod_data = pd.read_csv("Copy of OJT overall production compilation from 20072025-25072025.csv")
         prod_data.columns = prod_data.columns.str.strip()
 
-        # Only select the required columns
         selected_columns = ["Emp ID", "No of charts", "ICD", "DOS", "CPH"]
         filtered_data = prod_data[selected_columns]
 
-        # Search by Emp ID
         emp_id = st.text_input("Enter Emp ID")
         if emp_id:
             emp_filtered = filtered_data[filtered_data["Emp ID"].astype(str).str.strip() == emp_id.strip()]
@@ -94,7 +91,6 @@ if st.session_state.logged_in:
         else:
             st.dataframe(filtered_data)
 
-        # Download as Excel
         import io
         from openpyxl import Workbook
 
@@ -102,9 +98,8 @@ if st.session_state.logged_in:
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             filtered_data.to_excel(writer, index=False, sheet_name='ProductionData')
         st.download_button("Download Excel", data=output.getvalue(),
-                           file_name="production_data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                           file_name="production_data.xlsx",
+                           mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
     except Exception as e:
         st.error(f"Error loading or processing data: {e}")
-
-
