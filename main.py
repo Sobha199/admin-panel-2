@@ -77,7 +77,7 @@ if st.session_state.logged_in:
     elif page == "Production Portal":
         st.title("Production Dashboard")
 
-        prod_data = pd.DataFrame({
+             prod_data = pd.DataFrame({
             "Emp ID": ["EMP001", "EMP002", "EMP003"],
             "Charts Completed": [15, 20, 10],
             "Pages Completed": [150, 200, 100],
