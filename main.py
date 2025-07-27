@@ -49,10 +49,10 @@ if st.session_state.logged_in:
 
         role_df = df["Internal Role"].value_counts() if "Internal Role" in df.columns else "Missing Internal Role"
 
-        Login_Count = df["Login Count"].count() if "Login Count" in df.columns else "Column not found"
+        Login_Count = df["Login ID"].count() if "Login ID" in df.columns else "Column not found"
         if "Login Count" in df.columns:
             df["Login Count"] = pd.to_numeric(df["Login Count"], errors="coerce")
-            login_total = int(df["Login Count"].sum(skipna=True))
+            login_Count = int(df["Login Count"].sum(skipna=True))
 
         certified_count = df[df["Certified"].str.strip() == "Yes"].shape[0] if "Certified" in df.columns else "Missing Certified"
         inactive_count = df[df["Login Status"].str.strip() == "Inactive"].shape[0] if "Login Status" in df.columns else "Missing Login Status"
