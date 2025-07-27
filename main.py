@@ -36,11 +36,6 @@ if st.session_state.logged_in:
         Dashboard()
     elif page == "Logout":
         log_session_end()
-            st.session_state.authenticated = False
-            st.session_state.emp_id = ""
-            st.session_state.emp_name = ""
-            st.session_state.team_lead = ""
-            st.session_state.login_time = None
             st.success("Logged out successfully.")
 
     if page == "Dashboard":
