@@ -74,32 +74,35 @@ if st.session_state.logged_in:
         st.download_button("Download Dashboard Data", data=df.to_csv(index=False).encode("utf-8"),
                            file_name="dashboard_data.csv", mime="text/csv")
 
-    elif page == "Production Portal":
-    st.title("Production Dashboard")
+        elif page == "Production Portal":
+        st.title("Production Dashboard")
 
-    try:
-        prod_data = pd.read_csv("Copy of OJT overall production compilation from 20072025-25072025.csv")
-        prod_data.columns = prod_data.columns.str.strip()
+        try:
+            # Load production CSV
+            prod_df = pd.read_csv("Copy of OJT overall production compilation from 20072025-25072025.csv")
+            prod_df.columns = prod_df.columns.str.strip()
 
-        selected_columns = ["Emp ID", "No of charts", "ICD", "DOS", "CPH"]
-        filtered_data = prod_data[selected_columns]
+            # Ensure only required columns are displayed
+            required_columns = ["Emp ID", "No of charts", "ICD", "DOS", "CPH"]
+            if not all(col in prod_df.columns for col in required_columns):
+                st.error("One or more required columns are missing in the production CSV.")
+            else:
+                filtered_data = prod_df[required_columns]
 
-        emp_id = st.text_input("Enter Emp ID")
-        if emp_id:
-            emp_filtered = filtered_data[filtered_data["Emp ID"].astype(str).str.strip() == emp_id.strip()]
-            st.write(emp_filtered if not emp_filtered.empty else "No data found for this ID")
-        else:
-            st.dataframe(filtered_data)
+                # Filter by Emp ID
+                emp_id = st.text_input("Enter Emp ID")
+                if emp_id:
+                    emp_filtered = filtered_data[filtered_data["Emp ID"].astype(str).str.strip() == emp_id.strip()]
+                    st.write(emp_filtered if not emp_filtered.empty else "No data found for this ID")
+                else:
+                    st.dataframe(filtered_data)
 
-        import io
-        from openpyxl import Workbook
-
-        output = io.BytesIO()
-        with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            filtered_data.to_excel(writer, index=False, sheet_name='ProductionData')
-        st.download_button("Download Excel", data=output.getvalue(),
-                           file_name="production_data.xlsx",
-                           mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-    except Exception as e:
-        st.error(f"Error loading or processing data: {e}")
+                # Download Excel
+                output = io.BytesIO()
+                with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                    filtered_data.to_excel(writer, index=False, sheet_name='ProductionData')
+                st.download_button("Download Excel", data=output.getvalue(),
+                                file_name="production_data.xlsx",
+                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        except Exception as e:
+            st.error(f"Error loading or processing data: {e}")
