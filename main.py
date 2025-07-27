@@ -79,7 +79,7 @@ if st.session_state.logged_in:
 
         try:
             # Load production CSV
-            prod_df = pd.read_csv("Copy of OJT overall production compilation from 20072025-25072025.csv")
+            prod_df = pd.read_csv("Data (1).csv")
             prod_df.columns = prod_df.columns.str.strip()
 
             # Ensure only required columns are displayed
