@@ -26,7 +26,7 @@ if not st.session_state.logged_in:
             if username and password:
                 st.session_state.logged_in = True
                 st.success("Login Successful")
-                st.experimental_rerun()  # Redirect after successful login
+                st.rerun()  # Redirect after successful login
             else:
                 st.error("Invalid credentials")
 
